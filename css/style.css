@@ -1,0 +1,23 @@
+.ember-application {
+  margin: 20px;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+.active {
+  font-weight: bold;
+}
+nav {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+nav li {
+  display: inline;
+  margin-right: 10px;
+}
+.post .points {
+  font-size: 10px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ember Starter Kit</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet/less" type="text/css" href="css/style.less" />
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+</head>
+<body>
+  <script type="text/x-handlebars">
+    <div class="container">
+      <div class="col-xs-12">
+        <nav>
+          <li>{{#link-to 'index'}}Latest News{{/link-to}}</li>
+          <li>{{#link-to 'stored'}}Stored{{/link-to}}</li>
+        </nav>
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+    {{#each item in model}}
+      <div class="post">
+        <span class="title">
+          <a href="{{unbound item.url}}" >{{item.title}}</a>
+          {{#if item.saved}}
+            <span class="glyphicon glyphicon-ok green glyph-{{unbound item.id}}" {{action "removePost" item on="click"}} ></span>
+          {{else}}
+            <span class="glyphicon glyphicon-ok glyph-{{unbound item.id}}" {{action "storeForLater" item on="click"}}></span>
+          {{/if}}
+        </span>
+        <div class="points">points:{{item.points}} | posted by:{{item.postedBy}}, {{item.postedAgo}}</div>
+      </div>
+    {{/each}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="stored">
+    {{#each item in model}}
+      <div class="post">
+        <span class="title">
+          <a href="{{unbound item.url}}" >{{item.title}}</a>
+          <span class="glyphicon glyphicon-remove red" {{action "removePost" item on="click"}}></span>
+        </span>
+        <div class="points">points:{{item.points}} | posted by:{{item.postedBy}} ,stored:{{item.storeDate}}</div>
+      </div>
+    {{/each}}
+  </script>
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.2.0.js"></script>
+  <script src="js/libs/less.js"></script>
+  <script type="text/javascript" src="js/libs/ember-data.js"></script>
+  <script src="js/libs/lsadapter.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/models/post.js"></script>
+  <script src="js/controllers/index_controller.js"></script>
+  <script src="js/controllers/stored_controller.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+</body>
+</html>

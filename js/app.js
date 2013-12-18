@@ -15,6 +15,7 @@ App.Router.map(function() {
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
+      //remove all previous posts
       var oldPosts = this.store.find('tempPost').then(function(posts){
         posts.content.forEach(function(post){
         Ember.run.once(this, function(){
@@ -23,7 +24,7 @@ App.IndexRoute = Ember.Route.extend({
          })
         });
       });
-     
+      //retrieve ids of all stored posts
       var storedPosts = this.store.find('post');
       var storedIds = new Array();
       storedPosts.then(function(posts){ //this is handled automaticaly in the view
@@ -31,11 +32,13 @@ App.IndexRoute = Ember.Route.extend({
           storedIds.push(post.id);
         });
       });
+      //self needs to be declared outside request
       var self = this; 
+      //request to hacker news api
       var newPosts = Ember.$.getJSON('http://api.ihackernews.com/page?format=jsonp&callback=?').then(function(data) {
-        var data = $.makeArray(data);
+        var data = $.makeArray(data); //converting to array 
         data = data[0].items;
-        data.forEach(function(post){ //auto edw, pernaei sa reference to this 
+        data.forEach(function(post){ 
           var tempPost = self.store.createRecord('tempPost',{
             id: post.id,
             url: post.url,
@@ -45,10 +48,10 @@ App.IndexRoute = Ember.Route.extend({
             points: post.points,
             saved: false
           }); 
+          //checking if any of the posts are already stored
           if(storedIds.indexOf(String(post.id)) >= 0){ //casting here is necessary
             tempPost.set('saved', true);
           }else tempPost.set('saved',false);
-          console.log(tempPost.get('url'));
           tempPost.save();
         });
       });

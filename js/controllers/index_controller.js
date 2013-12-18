@@ -23,7 +23,6 @@ App.IndexController = Ember.ArrayController.extend({
       });
       item.update('stored', false);
       item.save();
-      //$('.glyph-'+id).removeClass('green');
 		}
 	}
 })
